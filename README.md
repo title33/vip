@@ -21,6 +21,11 @@ local Tabs = {
 local Weaponlist = {}
 local Weapon = nil
 
+MONS = {}
+ 
+for i,v in pairs(game:GetService("Workspace").Monster.Mon:GetChildren()) do
+    table.insert(MONS,v.Name)
+end
 
 for i,v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
     table.insert(Weaponlist,v.Name)
@@ -48,8 +53,43 @@ local Options = Fluent.Options
 
     Options.MyToggle:SetValue(false)
 
+spawn(function()
+while wait() do
+if AutoEquiped then
+pcall(function()
+game.Players.LocalPlayer.Character.Humanoid:EquipTool(game:GetService("Players").LocalPlayer.Backpack:FindFirstChild(Weapon))
+end)
+end
+end
+end)
 
-    Tabs.General:AddButton({
+    local Toggle = Tabs.General:AddToggle("MyToggle", {Title = "Auto Farm Mon", Default = false })
+
+    Toggle:OnChanged(function(state)
+        _G.AutoFarm = state
+    while _G.AutoFarm do wait()
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Lives[Select].HumanoidRootPart.CFrame * CFrame.new(0,0,5)
+end
+    end)
+
+    Options.MyToggle:SetValue(false)
+
+
+    local Dropdown = Tabs.General:AddDropdown("Select Monster", {
+        Title = "Select Monster",
+        Values = MONS,
+        Multi = false,
+        Default = 1,
+    })
+
+    Dropdown:SetValue("None")
+
+    Dropdown:OnChanged(function(Value)
+        Select = Value
+    end)
+
+
+    Tabs.General:AddButton(
         Title = "Button",
         Description = "Very important button",
         Callback = function()
@@ -173,15 +213,7 @@ InterfaceManager:BuildInterfaceSection(Tabs.Settings)
 SaveManager:BuildConfigSection(Tabs.Settings)
 
 
-spawn(function()
-while wait() do
-if AutoEquiped then
-pcall(function()
-game.Players.LocalPlayer.Character.Humanoid:EquipTool(game:GetService("Players").LocalPlayer.Backpack:FindFirstChild(Weapon))
-end)
-end
-end
-end)
+
 
 Window:SelectTab(1)
 
