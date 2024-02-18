@@ -14,24 +14,21 @@ local Window = Fluent:CreateWindow({
 
 --Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
 local Tabs = {
-    General = Window:AddTab({ Title = "General", Icon = "home" }),
+    General = Window:AddTab({ Title = "General", Icon = "http://www.roblox.com/asset/?id=11254763826" }),
     Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
 }
 
-local Weaponlist = {}
-local Weapon = nil
+MONS = {}
 
-
- 
-
-for i,v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
-    table.insert(Weaponlist,v.Name)
+for i,v in pairs(game:GetService('Workspace').Lives:GetChildren()) do
+    table.insert(MONS,v.Name)
 end
 
 local Options = Fluent.Options
-    local Dropdown = Tabs.General:AddDropdown("Select weapon", {
-        Title = "Select weapon",
-        Values = Weaponlist,
+
+    local Dropdown = Tabs.General:AddDropdown("", {
+        Title = "Dropdown",
+        Values = MONS,
         Multi = false,
         Default = 1,
     })
@@ -39,39 +36,22 @@ local Options = Fluent.Options
     Dropdown:SetValue("None")
 
     Dropdown:OnChanged(function(currentOption)
-         Weapon = currentOption
+      Select = currentOption
     end)
 
-    local Toggle = Tabs.General:AddToggle("MyToggle", {Title = "Auto Equip", Default = false })
-
-    Toggle:OnChanged(function(A)
-       AutoEquiped = A
-    end)
-
-    Options.MyToggle:SetValue(false)
-
-spawn(function()
-while wait() do
-if AutoEquiped then
-pcall(function()
-game.Players.LocalPlayer.Character.Humanoid:EquipTool(game:GetService("Players").LocalPlayer.Backpack:FindFirstChild(Weapon))
-end)
-end
-end
-end)
-
-    local Toggle = Tabs.General:AddToggle("MyToggle", {Title = "Auto Farm Mon", Default = false })
+    local Toggle = Tabs.General:AddToggle("MyToggle", {Title = "Auto Farm", Default = false })
 
     Toggle:OnChanged(function(state)
-
+            _G.AutoFarm = state
+    while _G.AutoFarm do wait()
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService('Workspace').Lives[Select].HumanoidRootPart.CFrame * CFrame.new(0,0,5)
+end
     end)
 
     Options.MyToggle:SetValue(false)
 
 
-
-
-    Tabs.General:AddButton(
+    Tabs.General:AddButton({
         Title = "Button",
         Description = "Very important button",
         Callback = function()
@@ -193,8 +173,6 @@ SaveManager:SetFolder("FluentScriptHub/specific-game")
 
 InterfaceManager:BuildInterfaceSection(Tabs.Settings)
 SaveManager:BuildConfigSection(Tabs.Settings)
-
-
 
 
 Window:SelectTab(1)
