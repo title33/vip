@@ -26,7 +26,7 @@ end
 
 local Options = Fluent.Options
 
-    local Dropdown = Tabs.General:AddDropdown("", {
+    local Dropdown = Tabs.General:AddDropdown("Select Monste", {
         Title = "Dropdown",
         Values = MONS,
         Multi = false,
