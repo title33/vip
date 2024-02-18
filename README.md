@@ -69,18 +69,6 @@ end)
     Options.MyToggle:SetValue(false)
 
 
-    local Dropdown = Tabs.General:AddDropdown("Select Monster", {
-        Title = "Select Monster",
-        Values = MONS,
-        Multi = false,
-        Default = 1,
-    })
-
-    Dropdown:SetValue("None")
-
-    Dropdown:OnChanged(function(Value)
-        Select = Value
-    end)
 
 
     Tabs.General:AddButton(
