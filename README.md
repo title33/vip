@@ -21,11 +21,8 @@ local Tabs = {
 local Weaponlist = {}
 local Weapon = nil
 
-MONS = {}
+
  
-for i,v in pairs(game:GetService("Workspace").Monster.Mon:GetChildren()) do
-    table.insert(MONS,v.Name)
-end
 
 for i,v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
     table.insert(Weaponlist,v.Name)
@@ -66,10 +63,7 @@ end)
     local Toggle = Tabs.General:AddToggle("MyToggle", {Title = "Auto Farm Mon", Default = false })
 
     Toggle:OnChanged(function(state)
-        _G.AutoFarm = state
-    while _G.AutoFarm do wait()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Lives[Select].HumanoidRootPart.CFrame * CFrame.new(0,0,5)
-end
+
     end)
 
     Options.MyToggle:SetValue(false)
